@@ -37,7 +37,6 @@ function assert_empty {
 }
 
 # Check that maxlen is 63
-
 assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-62.no"
 assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-63.no"
 assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-63.oslo.no"
@@ -47,7 +46,7 @@ assert_equal_comp "wwwwwwwwwwwwwwwwmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 assert_equal_comp "wwwwwwwwwwwwwwwwmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.oslo.no" "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.oslo.no"
 
 # Check that - is not permitted, either at start or end
-assert_equal_comp "-foo.oslo.no" "foo.oslo.no"
+assert_equal_comp "---foo.oslo.no" "foo.oslo.no"
 assert_equal_comp "foo-.oslo.no" "oslo.no"
 assert_equal_comp "-foo-.oslo.no" "oslo.no"
 assert_empty "-o.no"
@@ -57,15 +56,18 @@ assert_empty "-o-.no"
 # Check that domains can't be one char 
 assert_empty "l.no"
 assert_empty "-.no"
+assert_empty "1.no"
+
+# Check some legal hyphens
+assert_equal "0--o.no"
+assert_equal "0----------------o.no"
+assert_equal "0-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o.no"
 
 # Check that subdomains can be 1 char
 assert_equal "m.oslo.no"
 assert_equal "mm.oslo.no"
 assert_equal "mmm.oslo.no"
-assert_equal "lo.no"
-assert_equal "lol.no"
-assert_equal "o-a.no"
-assert_equal "foobarfoooo.oslo.no"
+
 
 # Check some weird category domains
 assert_equal "www.gs.of.no"
@@ -75,6 +77,16 @@ assert_equal "våler.østfold.no"
 assert_equal "sør-trøndelag.no"
 assert_equal "ákŋoluokta.no"
 
+# Test some numbers
+assert_equal "1ákŋo2.no"
+assert_equal "112.no"
+assert_equal "99999999.no"
+
 assert_equal "no.no"
+assert_equal "øl.no"
+assert_equal "lo.no"
+assert_equal "lol.no"
+assert_equal "o-a.no"
+assert_equal "foobarfoooo.oslo.no"
 
 echo "[INFO] All tests complete"

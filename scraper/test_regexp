@@ -63,11 +63,11 @@ assert_equal "0--o.no"
 assert_equal "0----------------o.no"
 assert_equal "0-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o.no"
 
-# Check that subdomains can be 1 char
+# Check that subdomains of category domains can be 1 char (oslo is category domain)
 assert_equal "m.oslo.no"
 assert_equal "mm.oslo.no"
 assert_equal "mmm.oslo.no"
-assert_equal_comp "det.er.m.oslo.no" "m.oslo.no"
+assert_equal_comp "det.er.m.oslo.no" "m.oslo.no" 
 assert_equal_comp "m.m.m.oslo.no" "m.oslo.no"
 
 # Check some weird category domains
@@ -97,7 +97,7 @@ m.oslo.no"
 assert_equal_comp "oslo.no,sol.no" "oslo.no
 sol.no"
 assert_equal_comp "det.er.no.m.m.oslo.no.m.e.no" "er.no
-m.oslo.no"
+m.oslo.no"  # oslo is category domain
 
 # Test some domains with noise around them
 assert_equal_comp "02inan.norsknettskole.no:80" "norsknettskole.no"

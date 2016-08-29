@@ -1,0 +1,17 @@
+# What are in the different folders:
+* sources
+ * Different sources that when <source>/list_domains is called will
+   list all domains for this source
+
+* utils
+
+* dns-checker
+
+* scraper
+ * regexp_dotno
+   - Regexp for extraction .no domains from messy text
+ * test:regexo
+   - Tests for regexp_dotno
+ * get_norid_cat_domains
+   - Script that will download and parse the list of Norid
+     category domains

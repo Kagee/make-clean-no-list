@@ -7,5 +7,5 @@ SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 VCHAR_EX_DASH='[a-z0-9\x{C5}\x{C6}\x{D8}\x{E0}\x{E1}\x{E4}-\x{EA}\x{F1}-\x{F4}\x{F6}\x{F8}\x{FC}\x{10D}\x{111}\x{144}\x{14B}\x{161}\x{167}\x{17E}]'
 CAT_DOMAINS=$(${SOURCE_DIR}/get_norid_cat_domains.sh)
 #set -x
-perl -CSD -ne "\$x=qr/${VCHAR_EX_DASH}/i; while(/(\$x(?:(?:\$x|-){1,61}|(?:\$x|-){0,61}\.(?:${CAT_DOMAINS}){0,1})\.no)(?!\$x)/gi) { print \$1,\"\\n\"; }"
+perl -CSD -ne "\$x=qr/${VCHAR_EX_DASH}/i; while(/(\$x(?:(?:\$x|-){0,61}\$x|(?:\$x|-){0,61}\.(?:${CAT_DOMAINS}){0,1})\.no)(?!\$x)/gi) { print \$1,\"\\n\"; }"
 #perl -CSD -ne "\$x=qr/${VCHAR_EX_DASH}/i; while(/(\$x(?:\$x|-){0,61}|(?:\.(?:${CAT_DOMAINS}|))\.no)(?!\$x)/gi) { print \$1,\"\\n\"; }"

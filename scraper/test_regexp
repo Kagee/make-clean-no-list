@@ -35,31 +35,45 @@ function assert_empty {
     fi
 }
 
-# These should be cut down to 63
-assert_equal_comp "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.no" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.no"
-assert_equal_comp "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80aaaa.no" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80aaaa.no"
+# Check that maxlen is 63
 
-assert_equal_comp "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.oslo.no" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.oslo.no"
+assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-62.no"
+assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-63.no"
+assert_equal "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-exactly-63.oslo.no"
+assert_equal_comp "wmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-64-cut-to-63.no" "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-64-cut-to-63.no"
+assert_equal_comp "wmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-64-cut-to-63.oslo.no" "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-64-cut-to-63.oslo.no"
+assert_equal_comp "wwwwwwwwwwwwwwwwmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.no" "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.no"
+assert_equal_comp "wwwwwwwwwwwwwwwwmaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.oslo.no" "maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-80-cut-to-63.oslo.no"
+
+# Check that - is not permitted, either at start or end
 assert_equal_comp "-foo.oslo.no" "foo.oslo.no"
 assert_equal_comp "foo-.oslo.no" "oslo.no"
-
-assert_equal "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa62aa.no"
-assert_equal "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa63aa.no"
-assert_equal "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa63aa.oslo.no"
-assert_equal "m.oslo.no"
-assert_equal "aa.oslo.no"
-assert_equal "lo.no"
-assert_equal "sool.no"
-assert_equal "o-a.no"
-assert_equal "foobarfoooo.oslo.no"
-assert_equal "www.gs.of.no"
-assert_equal "www.sande.more-og-romsdal.no"
-assert_equal "no.no"
-
-assert_empty "foo-.oslo.no"
-assert_empty "l.no"
+assert_equal_comp "-foo-.oslo.no" "oslo.no"
 assert_empty "-o.no"
 assert_empty "o-.no"
+assert_empty "-o-.no"
 
+# Check that domains can't be one char 
+assert_empty "l.no"
+assert_empty "-.no"
+
+# Check that subdomains can be 1 char
+assert_equal "m.oslo.no"
+assert_equal "mm.oslo.no"
+assert_equal "mmm.oslo.no"
+assert_equal "lo.no"
+assert_equal "lol.no"
+assert_equal "o-a.no"
+assert_equal "foobarfoooo.oslo.no"
+
+# Check some weird category domains
+assert_equal "www.gs.of.no"
+assert_equal "foobar.sande.more-og-romsdal.no"
+assert_equal "www.xn--hery-ira.xn--mre-og-romsdal-qqb.no"
+assert_equal "våler.østfold.no"
+assert_equal "sør-trøndelag.no"
+assert_equal "ákŋoluokta.no"
+
+assert_equal "no.no"
 
 echo "[INFO] All tests complete"

@@ -2,7 +2,14 @@
 * sources
  * Different sources that when <source>/list_domains is called will
    list all domains for this source
-
+ * alexa
+   * All .no domains in Alexa top 1m
+   * All domains in Alexa top 1m with TLD replaced with .no
+ * enhetsregisteret
+   * All domains found in enhetsregisteret
+ * permutate
+   * Permutations of all two- and three-letter valid domains
+   
 * utils
 
 * dns-checker

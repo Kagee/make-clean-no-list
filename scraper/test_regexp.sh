@@ -36,6 +36,8 @@ function assert_empty {
 assert_equal_comp "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.no" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa64aa.no"
 assert_equal_comp "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80aaaa.no" "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80aaaa.no"
 
+assert_equal_comp "-foo.oslo.no" "foo.oslo.no"
+
 assert_equal "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa62aa.no"
 assert_equal "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa63aa.no"
 assert_equal "m.oslo.no"
@@ -48,6 +50,8 @@ assert_equal "www.gs.of.no"
 assert_equal "www.sande.more-og-romsdal.no"
 assert_equal "no.no"
 
+assert_empty "foo-.oslo.no"
+assert_empty "-foo.oslo.no"
 assert_empty "l.no"
 assert_empty "-o.no"
 assert_empty "o-.no"

@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+for D in $(find . -maxdepth 1 -type d); do
+  if [ "x$D" != "x." ]; then
+    $D/list_domains 2>/dev/null >> tmp.list
+  fi
+  cat tmp.list | sort | uniq > tmp2.list
+  #cat tmp2.list | sed -e 's/\.no$/s.no/' > combine.list
+  #cat tmp2.list | sed -e 's/\.no$/er.no/' >> combine.list
+  cat tmp2.list >> combine.list
+  rm tmp*.list
+done;

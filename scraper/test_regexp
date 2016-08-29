@@ -11,7 +11,9 @@ function assert_equal_comp {
     GOTOUT="$(echo "$IN" | ./static_regexp_dotno)";
     
     if [ "${EXPOUT}" != "${GOTOUT}" ]; then
-        echo "[ERROR] Input '${IN}', expected '${EXPOUT}', got '${GOTOUT}'";
+        EXPLEN="$(echo -n "${EXPOUT}" | wc -c)"
+        GOTLEN="$(echo -n "${GOTOUT}" | wc -c)"
+        echo "[ERROR] Input '${IN}', expected '${EXPOUT}' (${EXPLEN}), got '${GOTOUT}' (${GOTLEN})";
     # else
         # echo "[OK] Input '${IN}', expected '${EXPOUT}', got '${GOTOUT}'";
     fi
@@ -26,7 +28,8 @@ function assert_empty {
     GOTOUT="$(echo "$IN" | ./static_regexp_dotno)";
     
     if [ "x" != "x${GOTOUT}" ]; then
-        echo "[ERROR] Input '${IN}', expected '', got '${GOTOUT}'";
+        GOTLEN="$(echo -n "${GOTOUT}" | wc -c)"
+        echo "[ERROR] Input '${IN}', expected '', got '${GOTOUT} (${GOTLEN})'";
     # else
         # echo "[OK] Input '${IN}', expected '${EXPOUT}', got '${GOTOUT}'";
     fi

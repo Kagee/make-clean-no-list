@@ -8,7 +8,7 @@ function err() { echo "$@" 1>&2; }
 function assert_equal_comp {
     IN="$1";
     EXPOUT="$2";
-    GOTOUT="$(echo "$IN" | ./regexp_dotno)";
+    GOTOUT="$(echo "$IN" | ./static_regexp_dotno)";
     
     if [ "${EXPOUT}" != "${GOTOUT}" ]; then
         echo "[ERROR] Input '${IN}', expected '${EXPOUT}', got '${GOTOUT}'";
@@ -23,7 +23,7 @@ function assert_equal {
 
 function assert_empty {
     IN="$1";
-    GOTOUT="$(echo "$IN" | ./regexp_dotno)";
+    GOTOUT="$(echo "$IN" | ./static_regexp_dotno)";
     
     if [ "x" != "x${GOTOUT}" ]; then
         echo "[ERROR] Input '${IN}', expected '', got '${GOTOUT}'";

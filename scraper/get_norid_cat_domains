@@ -10,6 +10,7 @@ fi
 
 WHOIS=$(cat ${WHOIS} | grep -P 'Domains\.{5,}: ' | sed -e 's/Domains\.*: *//' | tr ' ' '\n')
 
+# We want both IDN and not-IDN versjons of applicable domains
 WHOIS_AND_IDN=$(while read D; do
   echo "$D"
   echo "$D" | idn

@@ -1,0 +1,7 @@
+Domeneshop: https://www.domeneshop.no/expired
+Etatsbasen: http://hotell.difi.no/?dataset=difi/etatsbasen/organization
+Commoncrawl: http://index.commoncrawl.org/ (cdx-index-client), http://commoncrawl.org/2015/04/announcing-the-common-crawl-index/
+Sonar: https://scans.io fdns, rdns, kanskje flere?
+Urlteam: http://urlte.am/
+Wayback: https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md (cdx-index-client) 
+Wikipedia (no/en/etc): https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-externallinks.sql.gz;

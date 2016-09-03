@@ -23,7 +23,7 @@ create table servfails (
 create table dns_timeouts (
     id            serial      primary key,
     domain_id     int         not null references potential_domains(id),
-    last_checked  timestamp   timestamp   not null default now()
+    last_checked  timestamp   not null default now()
 );
 
 CREATE INDEX potential_domains_last_checked ON potential_domains (last_checked);

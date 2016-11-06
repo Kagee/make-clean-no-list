@@ -1,0 +1,2 @@
+#! /bin/bash
+cat domains_found_in_certificate_transparency_logs_2016_10_25.txt

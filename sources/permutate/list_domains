@@ -5,6 +5,10 @@ cd $SCRIPT_DIR/
 
 if [ ! -e "./perm2.list" ]; then
 	./perm.py 2 | ../../scraper/default_extract > ./perm2.list
-	./perm.py 3 | ../../scraper/default_extract > ./perm3.list
 fi
+
+if [ ! -e "./perm3.list" ]; then
+    ./perm.py 3 | ../../scraper/default_extract > ./perm3.list
+fi
+
 cat ./perm2.list ./perm3.list

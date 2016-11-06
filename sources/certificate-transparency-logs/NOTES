@@ -1,0 +1,3 @@
+To download certificate logs, see "ct-sync-list" in https://github.com/Kagee/certificatetransparency
+To extract strings from logs for running through scraping, use "dump-strings"
+

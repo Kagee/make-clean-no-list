@@ -3,6 +3,7 @@
 # Download: http://hotell.difi.no/download/brreg/enhetsregisteret?download
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${SOURCE_DIR}"
+
 # Timestamping is turned off on the server, so we can't use it for wget
 # Download if missing or --update-source
 if [ ! -e 'enhetsregisteret.csv' ] || [ "x$1" = "x--update-source" ]; then

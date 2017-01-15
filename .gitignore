@@ -4,3 +4,4 @@ list*.txt
 top-1m.*
 *.list
 enhetsregisteret.csv
+sources/domeneshop-expired/data/*.html

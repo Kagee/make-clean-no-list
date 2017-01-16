@@ -1,0 +1,3 @@
+SSL CERTS https://scans.io/study/sonar.ssl / https://github.com/rapid7/sonar/wiki/SSL-Certificates
+DNS LOOKUPS/NAME https://scans.io/study/sonar.fdns/  https://github.com/rapid7/sonar/wiki/Forward-DNS
+HTTP GET 80 https://scans.io/study/sonar.http / https://github.com/rapid7/sonar/wiki/HTTP

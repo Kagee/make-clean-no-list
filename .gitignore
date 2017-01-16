@@ -5,3 +5,4 @@ top-1m.*
 *.list
 enhetsregisteret.csv
 sources/domeneshop-expired/data/*.html
+sources/sonar/data/*.gz

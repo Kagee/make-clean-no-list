@@ -1,0 +1,1 @@
+find . -name '*.gz' | while read FILE; do zgrep -F '.no'  | ../../scraper/default_extract >> foo; done

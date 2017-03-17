@@ -1,0 +1,36 @@
+#! /usr/bin/env bash
+# Info: 
+# Download: 
+SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${SOURCE_DIR}"
+function upsearch () {
+    test / == "$PWD" && echo "Failed to find $1 in parents. Exiting." && exit 1 || test -e "$1" && return || cd .. && upsearch "$1"
+}
+upsearch scraper
+BASE="$PWD"
+cd "${SOURCE_DIR}"
+
+SOURCE="https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-externallinks.sql.gz"
+IN="./enwiki-latest-externallinks.sql.gz"
+#wildcard=(*25-smtp-rsa_export-full_ipv4-20150903T141914-zgrab-results.json.lz4)
+#IN="${wildcard[0]}"
+OUT="./enwiki.list"
+
+# Download if missing or --update-source
+if [ ! -e "$IN" ] || [ "x$1" = "x--update-source" ]; then
+  echo "Fail to find file matching $IN or update requested" 1>&2;
+  wget --timestamping "$SOURCE";
+else
+  echo "Found $IN, continuing" 1>&2;
+fi
+
+if [ ! -e "$OUT" ] || [ "x$1" = "x--update-list" ]; then
+  echo "Extracting and grepping $IN into ${OUT}.tmp" 1>&2;
+  gzip -d "$IN" | sed -e 's/),(/\n/g' | grep -a -F '.no' > "${OUT}.tmp"
+  echo "Scraping ${OUT}.tmp for domains into $OUT" 1>&2;
+  cat "${OUT}.tmp" | $BASE/scraper/default_extract > "$OUT";
+  rm "${OUT}.tmp"
+else
+  echo "Found $OUT, not scraping" 1>&2;
+fi
+cat "$OUT"

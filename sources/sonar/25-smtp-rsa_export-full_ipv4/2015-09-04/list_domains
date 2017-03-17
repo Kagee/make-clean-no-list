@@ -1,26 +1,35 @@
 #! /usr/bin/env bash
-# Info: http://data.norge.no/data/registerenheten-i-br%C3%B8nn%C3%B8ysund/enhetsregisteret
-# Download: http://hotell.difi.no/download/brreg/enhetsregisteret?download
+# Info: 
+# Download: 
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${SOURCE_DIR}"
+function upsearch () {
+    test / == "$PWD" && echo "Failed to find $1 in parents. Exiting." && exit 1 || test -e "$1" && return || cd .. && upsearch "$1"
+}
+upsearch scraper
+BASE="$PWD"
+cd "${SOURCE_DIR}"
 
-OUT="./25-smtp-rsa_export-full_ipv4.list"
-
-# Timestamping is turned off on the server, so we can't use it for wget
-# Download if missing or --update-source
+#IN="./file.in"
 wildcard=(*25-smtp-rsa_export-full_ipv4-20150903T141914-zgrab-results.json.lz4)
-if [ ! -e "${wildcard[0]}" ] || [ "x$1" = "x--update-source" ]; then
-  echo "Fail to find file matching $wildcard or update requested" 1>&2;
+IN="${wildcard[0]}"
+OUT="./25-smtp-rsa_export-full_ipv4_2015.list"
+
+# Download if missing or --update-source
+if [ ! -e "$IN" ] || [ "x$1" = "x--update-source" ]; then
+  echo "Fail to find file matching $IN or update requested" 1>&2;
   echo "Please download from https://censys.io/data/25-smtp-rsa_export-full_ipv4/historical" 1>&2;
 else
-  echo "Found $wildcard, continuing" 1>&2;
+  echo "Found $IN, continuing" 1>&2;
 fi
 
 if [ ! -e "$OUT" ] || [ "x$1" = "x--update-list" ]; then
-  lz4cat *25-smtp-rsa_export-full_ipv4-20150903T141914-zgrab-results.json.lz4 | \
-  jq -r '.data.ehlo, .data.banner' | \
-  grep -a -F '.no' | \
-  ../../../../scraper/default_extract > "$OUT"
+  lz4cat "$IN"  | jq -r '.data.ehlo, .data.banner' | \
+  grep -a -F '.no' > "${OUT}.tmp"
+  # Some EHLOs stop to early, and we only see i.e. 220-some.domain.no
+  grep -P '^2\d\d-' "${OUT}.tmp" | sed -e 's/^2[0-9][0-9]-//g' > "${OUT}.tmp2";
+  cat "${OUT}.tmp" "${OUT}.tmp2" | $BASE/scraper/default_extract > "$OUT";
+  rm "${OUT}.tmp" "${OUT}.tmp2"
 else
   echo "Found $OUT, not scraping" 1>&2;
 fi

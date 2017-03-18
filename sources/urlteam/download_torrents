@@ -1,0 +1,10 @@
+#! /bin/bash
+TORRENT_FOLDER="./torrents"
+DOWNLOAD_FILDER="./downloads"
+mkdir -p "$TORRENT_FOLDER"
+mkdir -p "$DOWNLOAD_FILDER"
+
+for FILE in $TORRENT_FOLDER/*.torrent;
+  do 
+    aria2c --dir="$DOWNLOAD_FILDER" --torrent-file "$FILE" --seed-time=1
+done;

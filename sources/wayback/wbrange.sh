@@ -39,7 +39,8 @@ do
     fi
     SLEEP=1
     echo -n ". downloading &page=$ZFI .";
-    curl -s "$PAGE_URL" > "$PATH_DW"
+    curl -A "$(curl -V | head -1 | cut -d ' ' -f1,2) - github.com/Kagee/make-clean-no-list" \
+      -s "$PAGE_URL" > "$PATH_DW"
   else
     echo -n ". download found .";
   fi

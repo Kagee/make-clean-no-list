@@ -1,0 +1,57 @@
+#! /usr/bin/env bash
+# Info: 
+# Download: 
+SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${SOURCE_DIR}"
+function upsearch () {
+    test / == "$PWD" && echo "Failed to find $1 in parents. Exiting." && exit 1 || test -e "$1" && return || cd .. && upsearch "$1"
+}
+upsearch scraper
+BASE="$PWD"
+cd "${SOURCE_DIR}"
+
+IDENT_URL='https://archive.org/advancedsearch.php?q=subject%3Aterroroftinytown&fl%5B%5D=identifier&sort%5B%5D=titleSorter+asc&sort%5B%5D=&sort%5B%5D=&rows=5000&page=1&callback=callback&save=yes&output=csv'
+
+#IN="./file.in"
+wildcard=(*25-smtp-rsa_export-full_ipv4-20150903T141914-zgrab-results.json.lz4)
+IN="${wildcard[0]}"
+OUT="./25-smtp-rsa_export-full_ipv4_2015.list"
+
+IDENT_LIST="identifiers.csv"
+TORRENT_DIR="./torrents"
+if [ ! -e "$IDENT_LIST" ] || [ "x$1" = "x--update-identifiers" ]; then
+  curl -s "$IDENT_URL" | grep -v identifier | tr -d '"' > "$IDENT_LIST"
+fi
+
+BASE_TORRENT_URL="https://archive.org/download/%s/%s_archive.torrent"
+
+mkdir -p "$TORRENT_DIR"
+
+cat "$IDENT_LIST" | while read IDENT;
+do
+  TORRENT_URL=$(printf "$BASE_TORRENT_URL\n" "$IDENT" "$IDENT");
+  echo "Downloading $TORRENT_URL"
+  wget --continue --directory-prefix="$TORRENT_DIR" "$TORRENT_URL" || exit 1;
+done;
+
+<<COMMENT
+# Download if missing or --update-source
+if [ ! -e "$IN" ] || [ "x$1" = "x--update-source" ]; then
+  echo "Fail to find file matching $IN or update requested" 1>&2;
+  echo "Please download from https://censys.io/data/25-smtp-rsa_export-full_ipv4/historical" 1>&2;
+else
+  echo "Found $IN, continuing" 1>&2;
+fi
+
+if [ ! -e "$OUT" ] || [ "x$1" = "x--update-list" ]; then
+  lz4cat "$IN"  | jq -r '.data.ehlo, .data.banner' | \
+  grep -a -F '.no' > "${OUT}.tmp"
+  # Some EHLOs stop to early, and we only see i.e. 220-some.domain.no
+  grep -P '^2\d\d-' "${OUT}.tmp" | sed -e 's/^2[0-9][0-9]-//g' > "${OUT}.tmp2";
+  cat "${OUT}.tmp" "${OUT}.tmp2" | $BASE/scraper/default_extract > "$OUT";
+  rm "${OUT}.tmp" "${OUT}.tmp2"
+else
+  echo "Found $OUT, not scraping" 1>&2;
+fi
+cat "$OUT"
+COMMENT

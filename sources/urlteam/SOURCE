@@ -1,0 +1,30 @@
+URLTeam [desc] is a group that bruteforces short urls (bit.ly, tinyurl 
+etc) and share the resulting data in an attempt to prevent link 
+rot[linkrot] should the shortener-services be shut down.
+
+Getting the data:
+
+Since 2014-11-06-20 or sometime before the data is avalible in 
+incremental torrents (aka "Tinytown"). Torrents from 2014-11-06-20
+and onwards may be found at archive.org with the search 
+"subject:terroroftinytown", see [archivetorrents]. 
+A non-complete text version of this search is avaliable at [mtorrents]. 
+
+All torrents appear to be avaliable in the same form, i.e.
+
+https://archive.org/download/urlteam_2014-11-06-20-33-23/urlteam_2014-
+11-06-20-33-23_archive.torrent
+
+for the date 2014-11-06 search match with the name 
+"URLTeam Release 2014-11-06-20-33-23"
+
+Data before 2014-11-06-20:
+It is *belived* that data before this date in contained in 
+[latestlarge]. If the torrent for 2014-11-06-20 contains all
+data since July 2013 in undetermined. 
+
+[desc] http://www.archiveteam.org/index.php?title=URLTeam
+[linkrot] https://en.wikipedia.org/wiki/Link_rot
+[mtorrents] http://archiveteam.org/index.php?title=URLTeam/torrents
+[archivetorrents] https://archive.org/search.php?query=subject%3Aterroroftinytown&sort=titleSorter&page=12
+[latestlarge] https://archive.org/details/URLTeamTorrentRelease2013July

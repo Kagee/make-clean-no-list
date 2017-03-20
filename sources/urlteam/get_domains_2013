@@ -5,9 +5,5 @@ FOLDER="./downloads/URLTeamTorrentRelease2013July"
 echo -n "" > $FOLDER/dotno.lines
 
 find "$FOLDER" -name '*.xz' | \
-while read FILE; do
-  xzcat "$FILE" | \
-  grep -a -F '.no' | \
-  iconv -c -f UTF-8 -t UTF-8//TRANSLIT \
-  >> $FOLDER/dotno.lines;
-done;
+xargs -P 4 -L 1 -I {} sh -c \
+"xzcat '{}' | grep -a -F '.no' | iconv -c -f UTF-8 -t UTF-8//TRANSLIT >> '{}.lines'"

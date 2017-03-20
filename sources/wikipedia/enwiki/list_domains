@@ -26,11 +26,12 @@ fi
 
 if [ ! -e "$OUT" ] || [ "x$1" = "x--update-list" ]; then
   echo "Extracting and grepping $IN into ${OUT}.tmp" 1>&2;
-  gzip -d "$IN" | sed -e 's/),(/\n/g' | grep -a -F '.no' > "${OUT}.tmp"
+  gzip --stdout -d "$IN" | sed -e 's/),(/\n/g' | \
+    grep -a -F '.no' | $BASE/scraper/urldecode > "${OUT}.tmp"
   echo "Scraping ${OUT}.tmp for domains into $OUT" 1>&2;
-  cat "${OUT}.tmp" | $BASE/scraper/default_extract > "$OUT";
-  rm "${OUT}.tmp"
+  $BASE/scraper/default_extract "$PWD/${OUT}.tmp"> "$OUT";
+  # rm "${OUT}.tmp"
 else
   echo "Found $OUT, not scraping" 1>&2;
 fi
-cat "$OUT"
+#cat "$OUT"

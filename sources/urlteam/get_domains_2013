@@ -1,0 +1,13 @@
+#! /bin/bash
+FOLDER="./downloads/URLTeamTorrentRelease2013July"
+
+# TODO: Err if file exsists and has >x lines
+echo -n "" > $FOLDER/dotno.lines
+
+find "$FOLDER" -name '*.xz' | \
+while read FILE; do
+  xzcat "$FILE" | \
+  grep -a -F '.no' | \
+  iconv -c -f UTF-8 -t UTF-8//TRANSLIT \
+  >> $FOLDER/dotno.lines;
+done;

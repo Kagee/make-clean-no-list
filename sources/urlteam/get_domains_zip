@@ -1,0 +1,18 @@
+#! /bin/bash
+FOLDER="$1"
+# TODO: Err out if file exsists and has contents
+echo -n "" > $FOLDER/dotno.lines
+for ZIP in $FOLDER/*.zip; 
+  do
+    #echo "Working on ZIP $ZIP" 1>&2
+    #unzip -l $ZIP | grep -o -P '[^ ]*\.txt\.xz' 1>&2
+    unzip -l $ZIP | grep -o -P '[^ ]*\.txt\.xz' | \
+      while read DATAFILE;
+        do
+          unzip -p "$ZIP" "$DATAFILE" | \
+		  xzcat | \
+		  grep -a -F '.no' | \
+		  iconv -c -f UTF-8 -t UTF-8//TRANSLIT \
+		  >> $FOLDER/dotno.lines;
+      done;
+done

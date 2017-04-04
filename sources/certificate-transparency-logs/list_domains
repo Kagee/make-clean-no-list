@@ -1,2 +1,40 @@
-#! /bin/bash
-cat domains_found_in_certificate_transparency_logs_2016_10_25.txt
+#! /usr/bin/env bash
+# Info: 
+# Download: 
+SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${SOURCE_DIR}"
+function upsearch () {
+    test / == "$PWD" && echo "Failed to find $1 in parents. Exiting." && exit 1 || test -e "$1" && return || cd .. && upsearch "$1"
+}
+upsearch scraper
+BASE="$PWD"
+cd "${SOURCE_DIR}"
+
+#IN="./file.in"
+wildcard=(extract/*.dotno)
+IN="${wildcard[0]}"
+OUT="./certificate-transparency-logs.list"
+
+# Download if missing or --update-source
+if [ ! -e "$IN" ] || [ "x$1" = "x--update-source" ]; then
+  echo "Failed to find files matching extract/*.dotno or update requested" 1>&2;
+  echo "Please:" 1>&2;
+  echo "* Download certificate rtansparency lists" 1>&2;
+  echo "** (i.e. using https://github.com/Kagee/certificatetransparency/blob/master/tools/ct-sync-list.go)" 1>&2;
+  echo "** Per 2017-04-01 all the supported logs ammount to aprox. 680 GB" 1>&2;
+  echo "* Extract possible .no domains" 1>&2;
+  echo "** (ie.e using https://github.com/Kagee/certificatetransparency/blob/master/tools/dump-strings.go)" 1>&2;
+  echo "** Per 2017-04-01 all the supported logs ammount to aprox. 170 MB" 1>&2;
+  echo "* Put the extracts in files named *.dotno in the extracts folder" 1>&2;
+  echo "Please:" 1>&2;
+else
+    echo "Found found atleast on inputfile ($wildcard), continuing" 1>&2;
+fi
+
+if [ ! -e "$OUT" ] || [ "x$1" = "x--update-list" ]; then
+  sort extract/*.dotno | uniq | \
+  $BASE/scraper/default_extract > "$OUT";
+else
+  echo "Found $OUT, not scraping" 1>&2;
+fi
+cat "$OUT"

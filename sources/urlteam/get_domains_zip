@@ -4,7 +4,7 @@ FOLDER="$1"
 echo -n "" > $FOLDER/dotno.lines
 for ZIP in $FOLDER/*.zip; 
   do
-    #echo "Working on ZIP $ZIP" 1>&2
+    echo "Working on ZIP $ZIP" 1>&2;
     #unzip -l $ZIP | grep -o -P '[^ ]*\.txt\.xz' 1>&2
     unzip -l $ZIP | grep -o -P '[^ ]*\.txt\.xz' | \
       while read DATAFILE;
@@ -12,7 +12,7 @@ for ZIP in $FOLDER/*.zip;
           unzip -p "$ZIP" "$DATAFILE" | \
 		  xzcat | \
 		  grep -a -F '.no' | \
-		  iconv -c -f UTF-8 -t UTF-8//TRANSLIT \
+		  uconv --from-code UTF-8 --from-callback substitute --to-code UTF-8 --to-callback substitute \
 		  >> $FOLDER/dotno.lines;
       done;
 done

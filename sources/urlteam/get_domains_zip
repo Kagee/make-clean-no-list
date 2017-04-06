@@ -1,4 +1,6 @@
 #! /bin/bash
+# Run me as
+# find . -type d -name 'urlteam_20*' | xargs -P 4 -L 1 ./get_domains_zip
 FOLDER="$1"
 # TODO: Err out if file exsists and has contents
 echo -n "" > $FOLDER/dotno.lines

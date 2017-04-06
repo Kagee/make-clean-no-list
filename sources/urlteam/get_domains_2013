@@ -6,4 +6,4 @@ echo -n "" > $FOLDER/dotno.lines
 
 find "$FOLDER" -name '*.xz' | \
 xargs -P 4 -L 1 -I {} sh -c \
-"xzcat '{}' | grep -a -F '.no' | iconv -c -f UTF-8 -t UTF-8//TRANSLIT >> '{}.lines'"
+"xzcat '{}' | grep -a -F '.no' | uconv --from-code UTF-8 --from-callback substitute --to-code UTF-8 --to-callback substitute > '{}.lines'"

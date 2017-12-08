@@ -9,12 +9,13 @@ fi
 
 START="$1"
 END="$2"
-BASE_URL='http://web.archive.org/cdx/?url=*.no&fl=original&collapse=original&output=json&gzip=true&'
+BASE_URL='http://web.archive.org/cdx/?matchType=domain&url=.no&fl=original&collapse=original&output=json&gzip=true&'
 TIMEOUT="$3"
 CMD="x$4"
 
 if [ "$CMD" = 'x--numpages' ]; then
- curl -s "$URL"showNumPages=true | gzip -d;
+   echo "${BASE_URL}showNumPages=true" 1>&2
+    curl -s "${BASE_URL}showNumPages=true" | gzip -d;
  exit 1;
 fi
 
@@ -39,6 +40,9 @@ do
     fi
     SLEEP=1
     echo -n ". downloading &page=$ZFI .";
+    #echo "$PAGE_URL"
+    # wget appeart to be able to continue? Why are we using curl ?
+    # 2017-07-02 19:03:30 (2.01 KB/s) - Read error at byte 130599 (Success).Retrying.
     curl -A "$(curl -V | head -1 | cut -d ' ' -f1,2) - github.com/Kagee/make-clean-no-list" \
       -s "$PAGE_URL" > "$PATH_DW"
   else
@@ -48,7 +52,7 @@ do
     zcat "$PATH_DW" 2>/dev/null | jsonlint-py -s -q
     if [ $? -eq 0 ]; then
       cp "$PATH_DW" "$PATH_OK"
-      echo -n ". lintcheck ok .. copied verified file ok!";
+      echo -n ". lintcheck ok .. copied file!";
     else
       echo -n ". lintcheck FAILED .";
       if [ "$CMD" = "x--delete-failed" ]; then

@@ -1,3 +1,6 @@
+Example run: 
+./wbrange.sh 40001 `cat numpages.txt` 1 --delete-failed | grep -v 'download found .. verified file file ok'; pushover "Part three finished"
 
+Wayback: http://web.archive.org/cdx
 
-Wayback: https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md (cdx-index-client) 
+# https://github.com/internetarchive/wayback/blob/master/wayback-cdx-server/README.md (cdx-index-client can not continue properly) 
